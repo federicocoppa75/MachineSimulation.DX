@@ -1,0 +1,224 @@
+﻿<UserControl x:Class="MachineElements.Views.MachineView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MachineElements.Views"
+             xmlns:hx="http://helix-toolkit.org/wpf/SharpDX"
+             xmlns:hx2D="clr-namespace:HelixToolkit.Wpf.SharpDX.Elements2D;assembly=HelixToolkit.Wpf.SharpDX"
+             xmlns:vm="clr-namespace:MachineElements.ViewModels;assembly=MachineElements.ViewModels"
+             xmlns:converters="clr-namespace:MachineElements.Views.Converters"
+             xmlns:lhx="clr-namespace:MachineElements.Views.Model.Elements3D"
+             xmlns:lhx2D="clr-namespace:MachineElements.Views.Model.Elements2D"
+             xmlns:selectors="clr-namespace:MachineElements.Views.Selectors"
+             xmlns:ve="clr-namespace:MachineElements.Views.Enums"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:BoolToVisibilityConverter x:Key="boolToVisibilityConverter" ValueForTrue="Visible" ValueForFalse="Hidden" />
+        <converters:BoolToVisibilityConverter x:Key="boolToCollassabilityConverter" ValueForTrue="Visible" ValueForFalse="Collapsed" />
+        <converters:ColorToBitmapStreamConverter x:Key="colorToBitmapStreamConverter" />
+        <DataTemplate  x:Key="element3dDataTemplate">
+            <hx:CompositeModel3D Transform="{Binding Transform}">
+                <hx:MeshGeometryModel3D Geometry="{Binding Geometry}"
+                                        Material="{Binding Material}"
+                                        CullMode="Back"
+                                        DepthBias="-100"
+                                        IsHitTestVisible="True"
+                                        IsThrowingShadow="False" 
+                                        IsSelected="{Binding IsSelected, Mode=TwoWay}"
+                                        IsRendering="{Binding Visible}"
+                                        PostEffects="{Binding PostEffects}"/>
+                <lhx:ItemsModel3D ItemsSource="{Binding Children}" 
+                                          ItemTemplateSelector="{DynamicResource itemModelTemplateSelector}" />
+            </hx:CompositeModel3D>
+        </DataTemplate>
+        <DataTemplate x:Key="panelTemplate">
+            <hx:ItemsModel3D ItemsSource="{Binding Children}" Transform="{Binding Transform}">
+                <hx:ItemsModel3D.ItemTemplate>
+                    <DataTemplate>
+                        <hx:MeshGeometryModel3D Geometry="{Binding Geometry}" 
+                                        Material="{Binding Material}"
+                                        CullMode="Back"
+                                        DepthBias="-100"
+                                        IsHitTestVisible="True"
+                                        IsThrowingShadow="False" 
+                                        IsRendering="{Binding Visible}"/>
+                    </DataTemplate>
+                </hx:ItemsModel3D.ItemTemplate>
+            </hx:ItemsModel3D>
+        </DataTemplate>
+        <DataTemplate x:Key="panelHolder">
+            <lhx:PanelHolderView Panel="{Binding LoadedPanel}" 
+                                 PanelTemplate="{StaticResource panelTemplate}"
+                                 PanelHoker="{Binding ActivePanelHooker}"
+                                 Transform="{Binding Transform}"/>
+        </DataTemplate>
+        <DataTemplate x:Key="panelHooker">
+            <lhx:PanelHookerView Transform="{Binding Transform}"/>
+        </DataTemplate>
+        <DataTemplate x:Key="pointDistance">
+            <hx:LineGeometryModel3D Thickness="{Binding Thickness}"
+                                    Smoothness="{Binding Smoothness}"
+                                    Color="{Binding Color}"
+                                    Geometry="{Binding Geometry}"
+                                    IsRendering="{Binding Visible}"/>
+        </DataTemplate>
+        <selectors:ItemModel3DTemplateSelector x:Key="itemModelTemplateSelector">
+            <selectors:ItemModel3DTemplateSelectorItem When="Default" Then="{StaticResource element3dDataTemplate}" />
+            <selectors:ItemModel3DTemplateSelectorItem When="PanelHolder" Then="{StaticResource panelHolder}"/>
+            <selectors:ItemModel3DTemplateSelectorItem When="PanelHooker" Then="{StaticResource panelHooker}"/>
+            <selectors:ItemModel3DTemplateSelectorItem When="PointDistance" Then="{StaticResource pointDistance}" />
+        </selectors:ItemModel3DTemplateSelector>
+    </UserControl.Resources>
+    <Grid>
+        <hx:Viewport3DX Name="view3DX"
+                        EffectsManager="{Binding EffectsManager}"
+                        Camera="{Binding Camera}"
+                        CoordinateSystemLabelForeground="Gray"
+                        ShowCoordinateSystem="True"
+                        UseDefaultGestures="True" 
+                        BackgroundColor="White" 
+                        CameraRotationMode="Trackball"
+                        IsShadowMappingEnabled="True"
+                        ShowFrameDetails="{Binding ShowFrameDetails}" 
+                        ShowTriangleCountInfo="{Binding ShowTriangleCountInfo}"
+                        ShowFrameRate="{Binding ShowFrameRate}"
+                        RotateAroundMouseDownPoint="True"
+                        EnableRenderFrustum="True"
+                        EnableSSAO="False"
+                        FXAALevel="Medium" 
+                        InfoBackground="Transparent"
+                        InfoForeground="Black"
+                        EnableSwapChainRendering="True">
+            <hx:Viewport3DX.InputBindings>
+                <KeyBinding Key="B" Command="hx:ViewportCommands.BackView" />
+                <KeyBinding Key="F" Command="hx:ViewportCommands.FrontView" />
+                <KeyBinding Key="U" Command="hx:ViewportCommands.TopView" />
+                <KeyBinding Key="D" Command="hx:ViewportCommands.BottomView" />
+                <KeyBinding Key="L" Command="hx:ViewportCommands.LeftView" />
+                <KeyBinding Key="R" Command="hx:ViewportCommands.RightView" />
+                <KeyBinding Command="hx:ViewportCommands.ZoomExtents" Gesture="Control+E" />
+                <MouseBinding Command="hx:ViewportCommands.Rotate" Gesture="RightClick" />
+                <MouseBinding Command="hx:ViewportCommands.Zoom" Gesture="MiddleClick" />
+                <MouseBinding Command="hx:ViewportCommands.Pan" Gesture="LeftClick" />
+            </hx:Viewport3DX.InputBindings>
+            <hx:ShadowMap3D OrthoWidth="300" />
+
+            <hx:ItemsModel3D ItemsSource="{Binding AmbientLights}">
+                <hx:ItemsModel3D.ItemTemplate>
+                    <DataTemplate>
+                        <hx:AmbientLight3D Color="{Binding Color}" />
+                    </DataTemplate>
+                </hx:ItemsModel3D.ItemTemplate>
+            </hx:ItemsModel3D>
+
+            <hx:ItemsModel3D ItemsSource="{Binding DirectionalLights}">
+                <hx:ItemsModel3D.ItemTemplate>
+                    <DataTemplate>
+                        <hx:DirectionalLight3D Color="{Binding Color}" Direction="{Binding Direction}"/>
+                    </DataTemplate>
+                </hx:ItemsModel3D.ItemTemplate>
+            </hx:ItemsModel3D>
+
+            <hx:ItemsModel3D ItemsSource="{Binding DirectionalOrientedByCameraLights}">
+                <hx:ItemsModel3D.ItemTemplate>
+                    <DataTemplate>
+                        <hx:DirectionalLight3D Color="{Binding Color}" 
+                                               Direction="{Binding Path=DataContext.Camera.LookDirection, RelativeSource={RelativeSource AncestorType={x:Type hx:Viewport3DX}}, Mode=OneWay}" />
+                    </DataTemplate>
+                </hx:ItemsModel3D.ItemTemplate>
+            </hx:ItemsModel3D>
+
+            <hx:ItemsModel3D ItemsSource="{Binding SpotLights}">
+                <hx:ItemsModel3D.ItemTemplate>
+                    <DataTemplate>
+                        <hx:SpotLight3D Color="{Binding Color}" 
+                                        Direction="{Binding Path=DataContext.Camera.LookDirection, RelativeSource={RelativeSource AncestorType={x:Type hx:Viewport3DX}}, Mode=OneWay}" 
+                                        Position="{Binding Path=DataContext.Camera.Position, RelativeSource={RelativeSource AncestorType={x:Type hx:Viewport3DX}}, Mode=OneWay}" 
+                                        IsRendering="True" 
+                                        Falloff="0.4"
+                                        OuterAngle="90"
+                                        InnerAngle="75"
+                                        Range="{Binding Path=DataContext.Camera.FarPlaneDistance, RelativeSource={RelativeSource AncestorType={x:Type hx:Viewport3DX}}, Mode=OneWay}"/>
+                    </DataTemplate>
+                </hx:ItemsModel3D.ItemTemplate>
+            </hx:ItemsModel3D>
+
+           
+            <lhx:ItemsModel3D
+                x:Name="itemsModel1"
+                ItemsSource="{Binding Machines}" ItemTemplateSelector="{StaticResource itemModelTemplateSelector}" >
+            </lhx:ItemsModel3D>
+            <hx:PostEffectMeshBorderHighlight
+                DrawMode="Merged"
+                EffectName="highlight"
+                NumberOfBlurPass="2" />
+            <hx:PostEffectMeshXRay x:Name="xrayLine" EffectName="xrayLine" />
+            <hx:ScreenQuadModel3D x:Name="screenQuadModel3D">
+                <hx:ScreenQuadModel3D.Texture>
+                    <MultiBinding Converter="{StaticResource colorToBitmapStreamConverter}">
+                        <Binding Path="EffectsManager"/>
+                        <Binding Path="BackgroundStartColor"/>
+                        <Binding Path="BackgroundStopColor"/>
+                    </MultiBinding>
+                </hx:ScreenQuadModel3D.Texture>
+            </hx:ScreenQuadModel3D>
+
+            <hx:Viewport3DX.Content2D>
+                <hx2D:StackPanel2D 
+                    Orientation="Vertical" 
+                    HorizontalAlignment="Left" 
+                    VerticalAlignment="Top" 
+                    Margin="5">
+                    <hx2D:TextModel2D Text="{Binding StepExecutionInfoProvider.StepTime, StringFormat={}{0:mm\\:ss\\.ff}}" Visibility="{Binding StepExecutionInfoProvider.IsStepTimeVisible, Converter={StaticResource boolToVisibilityConverter}}" TextAlignment="Left" />
+                    <hx2D:StackPanel2D Orientation="Horizontal">
+                        <hx2D:StackPanel2D Orientation="Vertical">
+                            <lhx2D:ItemsModel2D ItemsSource="{Binding StepExecutionInfoProvider.LinearPositionLinks}" Visibility="{Binding StepExecutionInfoProvider.IsAxesStateVisible, Converter={StaticResource boolToVisibilityConverter}}">
+                                <lhx2D:ItemsModel2D.ItemTemplate>
+                                    <DataTemplate>
+                                        <hx2D:TextModel2D Text="{Binding Id, Converter={StaticResource axIdToLabelCharConverter}}" Margin="0, 0, 5, 0" HorizontalAlignment="Left"/>
+                                    </DataTemplate>
+                                </lhx2D:ItemsModel2D.ItemTemplate>
+                            </lhx2D:ItemsModel2D>
+                            <hx2D:TextModel2D Text="{Binding StepExecutionInfoProvider.InverterName}"
+                                              Visibility="{Binding StepExecutionInfoProvider.IsInverterStateVisible, Converter={StaticResource boolToVisibilityConverter}}"
+                                              Margin="0, 0, 5, 0" 
+                                              HorizontalAlignment="Left"/>
+                        </hx2D:StackPanel2D>
+                        <hx2D:StackPanel2D Orientation="Vertical">
+                            <lhx2D:ItemsModel2D ItemsSource="{Binding StepExecutionInfoProvider.LinearPositionLinks}" Visibility="{Binding StepExecutionInfoProvider.IsAxesStateVisible, Converter={StaticResource boolToVisibilityConverter}}">
+                                <lhx2D:ItemsModel2D.ItemTemplate>
+                                    <DataTemplate>
+                                        <hx2D:TextModel2D Text="{Binding Value, StringFormat={}{0:0.00}}" HorizontalAlignment="Right"/>
+                                    </DataTemplate>
+                                </lhx2D:ItemsModel2D.ItemTemplate>
+                            </lhx2D:ItemsModel2D>
+                            <hx2D:TextModel2D Text="{Binding StepExecutionInfoProvider.InverterValue}"
+                                              Visibility="{Binding StepExecutionInfoProvider.IsInverterStateVisible, Converter={StaticResource boolToVisibilityConverter}}"
+                                              HorizontalAlignment="Right"/>
+                        </hx2D:StackPanel2D>
+                    </hx2D:StackPanel2D>
+                    <hx2D:StackPanel2D Orientation="Horizontal" Visibility="{Binding ShowCameraInfo, Converter={StaticResource boolToVisibilityConverter}}">
+                        <hx2D:StackPanel2D Orientation="Vertical">
+                            <hx2D:TextModel2D Text="Position "/>
+                            <hx2D:TextModel2D Text="Direction "/>
+                            <hx2D:TextModel2D Text="Up direction "/>
+                            <hx2D:TextModel2D Text="Far plane "/>
+                            <hx2D:TextModel2D Text="Near plane "/>
+                            <hx2D:TextModel2D Text="FOV "/>
+                        </hx2D:StackPanel2D>
+                        <hx2D:StackPanel2D Orientation="Vertical">
+                            <hx2D:TextModel2D Text="{Binding Camera.Position, StringFormat={}{0:0.00}}"/>
+                            <hx2D:TextModel2D Text="{Binding Camera.LookDirection, StringFormat={}{0:0.00}}"/>
+                            <hx2D:TextModel2D Text="{Binding Camera.UpDirection, StringFormat={}{0:0.00}}"/>
+                            <hx2D:TextModel2D Text="{Binding Camera.FarPlaneDistance}"/>
+                            <hx2D:TextModel2D Text="{Binding Camera.NearPlaneDistance}"/>
+                            <hx2D:TextModel2D Text="{Binding Camera.FieldOfView}"/>
+                        </hx2D:StackPanel2D>
+                    </hx2D:StackPanel2D>
+                </hx2D:StackPanel2D>
+            </hx:Viewport3DX.Content2D>
+        </hx:Viewport3DX>
+    </Grid>
+</UserControl>

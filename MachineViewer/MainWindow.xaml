@@ -1,0 +1,125 @@
+﻿<Window x:Class="MachineViewer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MachineViewer"
+        xmlns:views="clr-namespace:MachineElements.Views;assembly=MachineElements.Views"
+        xmlns:stepsView="clr-namespace:MachineSteps.Views;assembly=MachineSteps.Views"
+        xmlns:converters="clr-namespace:MachineElements.Views.Converters;assembly=MachineElements.Views"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Height="450" Width="800"
+        Title="{Binding Title}">
+    <Window.Resources>
+        <converters:BoolToVisibilityConverter x:Key="boolToVisibilityConverter" />
+    </Window.Resources>
+    <Grid>
+
+
+        <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="File">
+                    <MenuItem Header="Open" Command="{Binding FileOpenCommand}" />
+                    <Separator/>
+                    <MenuItem Header="Open archive" Command="{Binding FileOpenArchiveCommand}" />
+                    <Separator/>
+                    <MenuItem Header="Open environment" Command="{Binding FileOpenEnvironmentCommand}" />
+                    <MenuItem Header="Save enviroment" Command="{Binding FileSaveEnvironmentCommand}" />
+                    <Separator/>
+                    <MenuItem Header="Unload content" Command="{Binding UnloadContentCommand}" />
+                    <Separator/>
+                    <MenuItem Header="Load environment" ToolTip="Load last environment at startup" IsChecked="{Binding LoadLastEnvironmentAtStartup}" IsCheckable="True" />
+                </MenuItem>
+                <MenuItem Header="View">
+                    <MenuItem Header="Panel holder" IsCheckable="True" IsChecked="{Binding IsPanelHolderVisible}"/>
+                    <MenuItem Header="Colliders" IsCheckable="True" IsChecked="{Binding IsCollidersVisible}"/>
+                    <Separator/>
+                    <MenuItem Header="DefaultLights" IsChecked="{Binding IsDefaultLights}" IsCheckable="True"/>
+                    <MenuItem Header="DefaultLights 2" IsChecked="{Binding IsDefaultLights2}" IsCheckable="True"/>
+                    <MenuItem Header="DefaultLights 3" IsChecked="{Binding IsDefaultLights3}" IsCheckable="True"/>
+                    <MenuItem Header="SunLight" IsChecked="{Binding IsSunLight}" IsCheckable="True" />
+                    <MenuItem Header="SpotHeadLight" IsChecked="{Binding IsSpotHeadLight}" IsCheckable="True" />
+                    <Separator/>
+                    <MenuItem Header="FPS" IsChecked="{Binding IsFPSActive}" IsCheckable="True"/>
+                    <MenuItem Header="Triangles number" IsChecked="{Binding IsTriangleNumberActive}" IsCheckable="True" />
+                    <MenuItem Header="Frame details" IsChecked="{Binding IsFrameDetailsActive}" IsCheckable="True"/>
+                    <MenuItem Header="Camera info" IsChecked="{Binding IsCameraInfoActive}" IsCheckable="True"/>
+                    <Separator/>
+                    <MenuItem Header="Selection by view" IsChecked="{Binding IsEnabledSelectionByView}" IsCheckable="True"/>
+                    <Separator/>
+                    <MenuItem Header="Background">
+                        <xctk:ColorPicker SelectedColor="{Binding BackgroundStartColor}"  DropDownBackground="White"/>
+                        <xctk:ColorPicker SelectedColor="{Binding BackgroundStopColor}"  DropDownBackground="White"/>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Header="Tooling">
+                    <MenuItem Header="Load" Command="{Binding ToolingLoadCommand}"/>
+                    <MenuItem Header="Unload" Command="{Binding ToolingUnloadCommand}" />
+                </MenuItem>
+                <MenuItem Header="Probe">
+                    <MenuItem Header="Add point" IsCheckable="True" IsChecked="{Binding IsEnabledAddProbePoint}"/>
+                    <MenuItem Header="Points distance" Command="{Binding AddPointDistanceCommand}"/>
+                    <MenuItem Header="Remove point" Command="{Binding RemoveProbeCommand}"/>
+                </MenuItem>
+                <MenuItem Header="Steps">
+                    <MenuItem Header="Load" Command="{Binding LoadStepsCommand}" />
+                    <MenuItem Header="UnLoad" Command="{Binding UnloadStepsCommand}" />
+                    <Separator/>
+                    <MenuItem Header="Dynamic transition" IsCheckable="True" IsChecked="{Binding DynamicTransition}"/>
+                    <MenuItem Header="Auto step over" IsCheckable="True" IsChecked="{Binding AutoStepOver}"/>
+                    <Separator/>
+                    <MenuItem Header="Material removal" IsCheckable="True" IsChecked="{Binding MaterialRemoval}" />
+                </MenuItem>
+            </Menu>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="4" />
+                    <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
+
+
+                <TabControl>
+                    <TabItem Header="Struct">
+                        <views:Struct />
+                    </TabItem>
+                    <TabItem Header="Links">
+                        <views:Links />
+                    </TabItem>
+                    <TabItem Header="Probe">
+                        <views:Probes />
+                    </TabItem>
+                    <TabItem Header="Toolchange">
+                        <views:Toolchange/>
+                    </TabItem>
+                    <TabItem Header="Steps">
+                        <stepsView:Steps/>
+                    </TabItem>
+                    <TabItem Header="Panel">
+                        <views:Panel />
+                    </TabItem>
+                    <TabItem Header="Gantry">
+                        <views:Gantry />
+                    </TabItem>
+                    <TabItem Header="Injectors">
+                        <views:Injectors />
+                    </TabItem>
+                    <TabItem Header="Ligths">
+                        <views:Lights DataContext="{Binding DataContext, ElementName=machineView}"/>
+                    </TabItem>
+                </TabControl>
+
+                <GridSplitter Grid.Column="1"
+                          ResizeDirection="Columns"
+                          ResizeBehavior="PreviousAndNext"
+                          HorizontalAlignment="Stretch"/>
+
+                <views:MachineView Grid.Column="2" x:Name="machineView"/>
+
+            </Grid>
+        </DockPanel>
+
+    </Grid>
+</Window>

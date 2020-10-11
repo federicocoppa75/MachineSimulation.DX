@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="MachineElements.Views.PropertyGrid.PropertyEditors.MaterialPicker"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MachineElements.Views.PropertyGrid.PropertyEditors"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             x:Name="ctrl">
+    <Grid>
+        <!--<ComboBox x:Name="combo" ItemsSource="{Binding ItemsSource}" SelectedItem="{Binding Selected, Mode=TwoWay}">-->
+        <ComboBox x:Name="combo" SelectedItem="{Binding ElementName=ctrl, Path=Value}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <Label Content="{Binding}" ToolTipService.ShowDuration="60000">
+                        <Label.ToolTip>
+                            <xctk:PropertyGrid ShowAdvancedOptions="False" 
+                                               ShowSearchBox="False"
+                                               ShowPreview="False"
+                                               ShowSortOptions="False"
+                                               ShowTitle="False"
+                                               ShowSummary="False"
+                                               SelectedObject="{Binding}"/>
+                        </Label.ToolTip>
+                    </Label>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+    </Grid>
+</UserControl>

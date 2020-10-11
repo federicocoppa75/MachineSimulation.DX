@@ -1,0 +1,19 @@
+﻿<Application x:Class="MachineViewer.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:MachineViewer"
+             xmlns:stepConv="clr-namespace:MachineSteps.Views.Converters;assembly=MachineSteps.Views"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <stepConv:AxIdToLabelCharConverter x:Key="axIdToLabelCharConverter">
+            <stepConv:AxIdToLabelCharConverterItem When="1" Then="X" />
+            <stepConv:AxIdToLabelCharConverterItem When="2" Then="U" />
+            <stepConv:AxIdToLabelCharConverterItem When="101" Then="Y" />
+            <stepConv:AxIdToLabelCharConverterItem When="201" Then="V" />
+            <stepConv:AxIdToLabelCharConverterItem When="102" Then="Z" />
+            <stepConv:AxIdToLabelCharConverterItem When="202" Then="W" />
+            <stepConv:AxIdToLabelCharConverterItem When="112" Then="A" />
+            <stepConv:AxIdToLabelCharConverterItem When="212" Then="B" />
+        </stepConv:AxIdToLabelCharConverter>
+    </Application.Resources>
+</Application>

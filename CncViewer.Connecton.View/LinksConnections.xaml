@@ -1,0 +1,79 @@
+﻿<UserControl x:Class="CncViewer.Connecton.View.LinksConnections"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CncViewer.Connecton.View"
+             xmlns:converters="clr-namespace:CncViewer.Connecton.View.Converters"
+             xmlns:selectors="clr-namespace:CncViewer.Connecton.View.Selectors"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:BoolValueToDigitConverter x:Key="boolToDigitConverter" />
+        <converters:VariableTypeToImageConverter x:Key="varTypeToImageConverter">
+            <converters:VariableTypeToImageConverterItem When="Linear" Then="" />
+            <converters:VariableTypeToImageConverterItem When="TwoPos" Then="" />
+            <converters:VariableTypeToImageConverterItem When="WriteTwoPos" Then="" />
+            <converters:VariableTypeToImageConverterItem When="PulseTwoPos" Then="+" />
+        </converters:VariableTypeToImageConverter>
+    </UserControl.Resources>
+    <Grid>
+        <ListView ItemsSource="{Binding Links}" SelectedItem="{Binding SelectedLink}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Id" Width="50" DisplayMemberBinding="{Binding Id}" />
+                    <GridViewColumn Header="Type" Width="40" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding Type, Converter={StaticResource varTypeToImageConverter}}" FontFamily="Webdings" FontSize="20" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Variable" Width="70" DisplayMemberBinding="{Binding Variable}" />
+                    <GridViewColumn Header="Value" Width="60">
+                        <GridViewColumn.CellTemplateSelector>
+                            <selectors:LinkValueTemplateSelector>
+                                <selectors:LinkValueTemplateSelectorItem When="Linear">
+                                    <DataTemplate>
+                                        <Label Content="{Binding Value}" />
+                                    </DataTemplate>
+                                </selectors:LinkValueTemplateSelectorItem>
+                                <selectors:LinkValueTemplateSelectorItem When="TwoPos">
+                                    <DataTemplate>
+                                        <Label Content="{Binding Value, Converter={StaticResource boolToDigitConverter}}" />
+                                    </DataTemplate>
+                                </selectors:LinkValueTemplateSelectorItem>
+                                <selectors:LinkValueTemplateSelectorItem When="WriteTwoPos">
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Content="{Binding Value, Converter={StaticResource boolToDigitConverter}}" />
+                                            <CheckBox Grid.Column="1" VerticalAlignment="Center" Margin="3, 0, 0, 0" Command="{Binding WriteCommand}" IsChecked="{Binding ValueToWrite}"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </selectors:LinkValueTemplateSelectorItem>
+                                <selectors:LinkValueTemplateSelectorItem When="PulseTwoPos">
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Content="{Binding Value, Converter={StaticResource boolToDigitConverter}}" />
+                                            <Button Content="" HorizontalAlignment="Stretch" Grid.Column="1" Command="{Binding PulseCommand}" Width="20" FontFamily="Webdings" FontSize="15"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </selectors:LinkValueTemplateSelectorItem>
+                            </selectors:LinkValueTemplateSelector>
+                        </GridViewColumn.CellTemplateSelector>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Description" Width="100" DisplayMemberBinding="{Binding Description}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+    </Grid>
+</UserControl>
