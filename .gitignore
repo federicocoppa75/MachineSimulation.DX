@@ -13,3 +13,7 @@ packages/
 
 # vs folder
 .vs/
+
+# dependencies
+ExternDependeds/*.dll
+ExternDependeds/*.pdb
