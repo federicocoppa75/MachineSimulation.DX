@@ -5,17 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MachineSteps.Models" Version="1.1.0" />
     <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MachineElements.ViewModels\MachineElements.ViewModels.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="MachineSteps.Models">
-      <HintPath>..\ExternDependeds\MachineSteps.Models.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>
