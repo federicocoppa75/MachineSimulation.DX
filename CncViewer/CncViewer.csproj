@@ -171,10 +171,6 @@
       <Project>{9ee90dc7-5b63-42b6-8da6-879687577eee}</Project>
       <Name>MachineElements.Views</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MachineSteps.Models.IO\MachineSteps.Models.IO.csproj">
-      <Project>{f98460f0-84d2-4e05-9101-8f85a33805a6}</Project>
-      <Name>MachineSteps.Models.IO</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MachineSteps.ViewModels\MachineSteps.ViewModels.csproj">
       <Project>{cb65c20b-9f0f-4a7d-9b65-b3fddbb31b6e}</Project>
       <Name>MachineSteps.ViewModels</Name>
