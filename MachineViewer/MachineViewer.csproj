@@ -54,8 +54,8 @@
     <Reference Include="HelixToolkit.Wpf.SharpDX, Version=2.11.0.0, Culture=neutral, PublicKeyToken=52aa3500039caf0d, processorArchitecture=MSIL">
       <HintPath>..\packages\HelixToolkit.Wpf.SharpDX.2.11.0\lib\net45\HelixToolkit.Wpf.SharpDX.dll</HintPath>
     </Reference>
-    <Reference Include="MachineSteps.Models">
-      <HintPath>..\ExternDependeds\MachineSteps.Models.dll</HintPath>
+    <Reference Include="MachineSteps.Models, Version=1.1.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MachineSteps.Models.1.1.0\lib\netstandard2.0\MachineSteps.Models.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpDX.4.2.0\lib\net45\SharpDX.dll</HintPath>
@@ -175,10 +175,6 @@
     <ProjectReference Include="..\MachineElements.Views\MachineElements.Views.csproj">
       <Project>{9ee90dc7-5b63-42b6-8da6-879687577eee}</Project>
       <Name>MachineElements.Views</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MachineSteps.Models.IO\MachineSteps.Models.IO.csproj">
-      <Project>{f98460f0-84d2-4e05-9101-8f85a33805a6}</Project>
-      <Name>MachineSteps.Models.IO</Name>
     </ProjectReference>
     <ProjectReference Include="..\MachineSteps.ViewModels\MachineSteps.ViewModels.csproj">
       <Project>{cb65c20b-9f0f-4a7d-9b65-b3fddbb31b6e}</Project>
