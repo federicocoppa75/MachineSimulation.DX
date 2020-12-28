@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.1082
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MachineViewer", "MachineViewer\MachineViewer.csproj", "{DF2DB5A9-C82B-44D0-94C3-22A4F296D7D6}"
 EndProject
@@ -19,11 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tools.Models", "Tools.Model
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tooling.Models", "Tooling.Models\Tooling.Models.csproj", "{6D5E5BBC-34DE-4413-A8C4-D79E56B3770C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tooling.Models.IO", "Tooling.Models.IO\Tooling.Models.IO.csproj", "{07A661EA-EEBB-4353-9B11-D07CDE27BBE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tooling.Models.IO", "Tooling.Models.IO\Tooling.Models.IO.csproj", "{07A661EA-EEBB-4353-9B11-D07CDE27BBE8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MachineElements.Models", "MachineElements.Models\MachineElements.Models.csproj", "{87FB9164-0ACE-4969-8142-65443874D425}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MachineSteps.Models.IO", "MachineSteps.Models.IO\MachineSteps.Models.IO.csproj", "{F98460F0-84D2-4E05-9101-8F85A33805A6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaterialRemoval", "MaterialRemoval\MaterialRemoval.csproj", "{41E08BF8-30C9-4EBA-A659-E2F43B9DC73B}"
 EndProject
@@ -39,11 +37,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MachineViewer.Helpers", "Ma
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CncViewer", "CncViewer\CncViewer.csproj", "{AFCE0EEA-4DB0-41EB-B726-8AF61D906332}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CncViewer.Connection", "CncViewer.Connection\CncViewer.Connection.csproj", "{DA419D8C-B958-4C44-B89A-63BD524E0B13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CncViewer.Connection", "CncViewer.Connection\CncViewer.Connection.csproj", "{DA419D8C-B958-4C44-B89A-63BD524E0B13}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CncViewer.Connecton.View", "CncViewer.Connecton.View\CncViewer.Connecton.View.csproj", "{8D99F4DD-C7B7-4E2D-95C4-8A4EE6AF6B72}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CncViewer.Connection.Bridge", "CncViewer.Connection.Bridge\CncViewer.Connection.Bridge.csproj", "{3C50F28B-718D-41B4-BD8C-AE982B9C88C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CncViewer.Connection.Bridge", "CncViewer.Connection.Bridge\CncViewer.Connection.Bridge.csproj", "{3C50F28B-718D-41B4-BD8C-AE982B9C88C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,10 +89,6 @@ Global
 		{87FB9164-0ACE-4969-8142-65443874D425}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87FB9164-0ACE-4969-8142-65443874D425}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87FB9164-0ACE-4969-8142-65443874D425}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F98460F0-84D2-4E05-9101-8F85A33805A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F98460F0-84D2-4E05-9101-8F85A33805A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F98460F0-84D2-4E05-9101-8F85A33805A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F98460F0-84D2-4E05-9101-8F85A33805A6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{41E08BF8-30C9-4EBA-A659-E2F43B9DC73B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{41E08BF8-30C9-4EBA-A659-E2F43B9DC73B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{41E08BF8-30C9-4EBA-A659-E2F43B9DC73B}.Release|Any CPU.ActiveCfg = Release|Any CPU
