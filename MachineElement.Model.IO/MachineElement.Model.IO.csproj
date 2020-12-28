@@ -46,17 +46,23 @@
     <Reference Include="HelixToolkit.Wpf.SharpDX, Version=2.11.0.0, Culture=neutral, PublicKeyToken=52aa3500039caf0d, processorArchitecture=MSIL">
       <HintPath>..\packages\HelixToolkit.Wpf.SharpDX.2.11.0\lib\net45\HelixToolkit.Wpf.SharpDX.dll</HintPath>
     </Reference>
-    <Reference Include="MachineModels">
-      <HintPath>..\ExternDependeds\MachineModels.dll</HintPath>
+    <Reference Include="MachineModels, Version=1.1.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MachineModels.1.1.0\lib\netstandard2.0\MachineModels.dll</HintPath>
     </Reference>
-    <Reference Include="MachineModels.IO">
-      <HintPath>..\ExternDependeds\MachineModels.IO.dll</HintPath>
+    <Reference Include="MachineModels.IO, Version=1.1.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MachineModels.IO.1.1.0\lib\netstandard2.0\MachineModels.IO.dll</HintPath>
     </Reference>
-    <Reference Include="MachineSteps.Models">
-      <HintPath>..\ExternDependeds\MachineSteps.Models.dll</HintPath>
+    <Reference Include="MachineSteps.Models, Version=1.1.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MachineSteps.Models.1.1.0\lib\netstandard2.0\MachineSteps.Models.dll</HintPath>
     </Reference>
-    <Reference Include="MachineSteps.Plugins.IsoParser">
-      <HintPath>..\ExternDependeds\MachineSteps.Plugins.IsoParser.dll</HintPath>
+    <Reference Include="MachineSteps.Plugins.IsoConverterBase, Version=1.1.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MachineSteps.Plugins.IsoConverterBase.1.1.0\lib\netstandard2.0\MachineSteps.Plugins.IsoConverterBase.dll</HintPath>
+    </Reference>
+    <Reference Include="MachineSteps.Plugins.IsoIstructions, Version=1.1.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MachineSteps.Plugins.IsoIstructions.1.1.0\lib\netstandard2.0\MachineSteps.Plugins.IsoIstructions.dll</HintPath>
+    </Reference>
+    <Reference Include="MachineSteps.Plugins.IsoParser, Version=1.1.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MachineSteps.Plugins.IsoParser.1.1.0\lib\netstandard2.0\MachineSteps.Plugins.IsoParser.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="SharpDX, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
