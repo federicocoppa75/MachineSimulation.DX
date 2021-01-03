@@ -70,6 +70,8 @@
                     <MenuItem Header="Auto step over" IsCheckable="True" IsChecked="{Binding AutoStepOver}"/>
                     <Separator/>
                     <MenuItem Header="Material removal" IsCheckable="True" IsChecked="{Binding MaterialRemoval}" />
+                    <Separator/>
+                    <MenuItem Header="Export panel" Command="{Binding ExportPanelCommand}"/>
                 </MenuItem>
             </Menu>
 

@@ -28,6 +28,7 @@ using ResetAvailableToolSinkListMessage = MachineElements.ViewModels.Messages.To
 using ResetAvailablePanelHolderMessage = MachineElements.ViewModels.Messages.PanelHolder.ResetAvailablePanelHolderMessage;
 using System.Windows.Media;
 using GalaSoft.MvvmLight.Threading;
+using MachineElements.ViewModels.Interfaces.Messages.Panel;
 
 namespace MachineViewer
 {
@@ -328,6 +329,9 @@ namespace MachineViewer
         private ICommand _unloadStepsCommand;
         public ICommand UnloadStepsCommand { get { return _unloadStepsCommand ?? (_unloadStepsCommand = new RelayCommand(() => UnloadStepsCommandImplementation())); } }
 
+        private ICommand _exportPanelCommand;
+        public ICommand ExportPanelCommand { get { return _exportPanelCommand ?? (_exportPanelCommand = new RelayCommand(() => ExportPanelCommandImplementation(), () => PanelPresenceConfirm())); } }
+
         public MainViewModel() : base()
         {
             Title = _defaultTitle;
@@ -588,6 +592,31 @@ namespace MachineViewer
             AutoStepOver = autoStepOver;
 
             Title = _defaultTitle;
+        }
+
+        private void ExportPanelCommandImplementation()
+        {
+            var dlg = new Microsoft.Win32.SaveFileDialog();
+
+            dlg.DefaultExt = "stl";
+            dlg.AddExtension = true;
+            dlg.Filter = "STL File format |*.stl";
+
+            var b = dlg.ShowDialog();
+
+            if (b.HasValue && b.Value)
+            {
+                MessengerInstance.Send(new PanelExportRequestMessage() { FileName = dlg.FileName });
+            }
+        }
+
+        private bool PanelPresenceConfirm()
+        {
+            bool result = false;
+
+            MessengerInstance.Send(new PanelPresenceRequestMessage() { Confirm = () => result = true });
+
+            return result;
         }
 
         private void NotifyDynamicTransitionChanged()

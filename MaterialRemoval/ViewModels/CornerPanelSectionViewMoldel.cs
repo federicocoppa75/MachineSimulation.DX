@@ -214,5 +214,11 @@ namespace MaterialRemoval.ViewModels
                 });
             }
         }
+
+        protected override void OnPanelExportMessage(PanelExportMessage msg)
+        {
+            base.OnPanelExportMessage(msg);
+            msg.AddSectionGeometry(_ndSideGeometry);
+        }
     }
 }

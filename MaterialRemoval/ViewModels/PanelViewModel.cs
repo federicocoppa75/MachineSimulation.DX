@@ -13,6 +13,9 @@ using MachineElements.ViewModels.Interfaces.Messages.Panel;
 using IStepObserver = MachineElements.ViewModels.Interfaces.Steps.IStepObserver;
 using GalaSoft.MvvmLight.Ioc;
 using StepExecutionDirection =  MachineElements.ViewModels.Interfaces.Enums.StepExecutionDirection;
+using System.Collections.Generic;
+using HelixToolkit.Wpf.SharpDX;
+using System.Linq;
 
 namespace MaterialRemoval.ViewModels
 {
@@ -45,6 +48,8 @@ namespace MaterialRemoval.ViewModels
             MessengerInstance.Register<RoutToolMoveMessage>(this, OnRoutToolMoveMessage);
             MessengerInstance.Register<InjectMessage>(this, OnInjectMessage);
             MessengerInstance.Register<InsertMessage>(this, OnInsertMessage);
+            MessengerInstance.Register<PanelExportRequestMessage>(this, OnPanelExportRequestMessage);
+            MessengerInstance.Register<PanelPresenceRequestMessage>(this, m => m?.Confirm());
 
             _stepObserver = SimpleIoc.Default.GetInstance<IStepObserver>();
         }
@@ -326,6 +331,17 @@ namespace MaterialRemoval.ViewModels
 
             ie.Parent = this;
             Children.Add(ie);
+        }
+
+        private void OnPanelExportRequestMessage(PanelExportRequestMessage msg)
+        {
+            var list = new List<Geometry3D>();
+
+            MessengerInstance.Send(new PanelExportMessage() { AddSectionGeometry = (g) => list.Add(g) });
+
+            var dList = list.Select(g => (g as MeshGeometry3D).ToDMesh3()).ToList();
+
+            StandardMeshWriter.WriteMeshes(msg.FileName, dList, WriteOptions.Defaults);
         }
     }
 }

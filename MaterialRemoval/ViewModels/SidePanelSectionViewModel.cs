@@ -402,5 +402,10 @@ namespace MaterialRemoval.ViewModels
             setProcessedMesh(mesh);
         }
 
+        protected override void OnPanelExportMessage(PanelExportMessage msg)
+        {
+            base.OnPanelExportMessage(msg);
+            msg.AddSectionGeometry(_sideGeometry);
+        }
     }
 }

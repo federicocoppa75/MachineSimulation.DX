@@ -21,6 +21,8 @@ namespace MaterialRemoval.Extensions
 
         public static Point3D ToPoint3D(this Vector3d vector) => new Point3D(vector.x, vector.y, vector.z);
 
+        public static Vector3d ToVector3d(this SharpDX.Vector3 vector) => new Vector3d(vector.X, vector.Y, vector.Z);
+
         public static Vector3Collection ToVector3Collection(this Point3DCollection coll)
         {
             var outColl = new Vector3Collection(coll.Count);
@@ -71,6 +73,25 @@ namespace MaterialRemoval.Extensions
                 Positions = uiPoints.ToVector3Collection(),
                 TriangleIndices = uiIndexes
             };
+        }
+
+        public static DMesh3 ToDMesh3(this MeshGeometry3D mesh)
+        {
+            var dMesh = new DMesh3();
+            var positions = mesh.Positions;
+            var indexes = mesh.TriangleIndices;
+
+            foreach (var p in positions)
+            {
+                dMesh.AppendVertex(p.ToVector3d());
+            }
+
+            for (int i = 0; i < indexes.Count; i+=3)
+            {
+                dMesh.AppendTriangle(indexes[i], indexes[i + 1], indexes[i + 2]);
+            }
+
+            return dMesh;
         }
 
         public static void UpdateFrom(this MeshGeometry3D dest, DMesh3 src)

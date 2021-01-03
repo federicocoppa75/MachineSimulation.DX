@@ -97,6 +97,7 @@ namespace MaterialRemoval.ViewModels
             MessengerInstance.Register<ProcessPendingRemovalMessage>(this, OnProcessPendingRemovalMessage);
             MessengerInstance.Register<SectionRoutToolMoveMessage>(this, OnSectionRoutToolMoveMessage);
             MessengerInstance.Register<BackStepMessage>(this, OnBackStepMessage);
+            MessengerInstance.Register<PanelExportMessage>(this, OnPanelExportMessage);
         }
 
         public virtual void Initialize()
@@ -266,6 +267,8 @@ namespace MaterialRemoval.ViewModels
                 });
             }
         }
+
+        protected virtual void OnPanelExportMessage(PanelExportMessage msg) => msg.AddSectionGeometry(_sectionGeometry);
 
         protected virtual void OnBackStepMessageImplementation(int index)
         {
