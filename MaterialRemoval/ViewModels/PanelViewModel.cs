@@ -90,6 +90,36 @@ namespace MaterialRemoval.ViewModels
             const int sectionsX100mm = 3;
             _nxSection = (int)Math.Ceiling(SizeX / 100.0) * sectionsX100mm;
             _nySection = (int)Math.Ceiling(SizeY / 100.0) * sectionsX100mm;
+
+            ImproveSectionsNumber();
+        }
+
+        private void ImproveSectionsNumber()
+        {
+            var xSize = SizeX / _nxSection;
+            var ySize = SizeY / _nySection;
+
+            if (Math.Abs(xSize - ySize) > 0.01)
+            {
+                if (xSize > ySize)
+                {
+                    ImproveSectionsNumber(ySize, SizeX, ref _nxSection);
+                }
+                else
+                {
+                    ImproveSectionsNumber(xSize, SizeY, ref _nySection);
+                }
+            }
+        }
+
+        private static void ImproveSectionsNumber(double refSecSize, double size, ref int n)
+        {
+            while ((size / n) >= refSecSize) n++;
+
+            var v1 = Math.Abs((size / n) - refSecSize);
+            var v2 = Math.Abs((size / (n - 1)) - refSecSize);
+
+            if (v1 > v2) n--;
         }
 
         private PanelSectionViewModel CreatePanelSection(Point3D center, double xSectionSize, double ySectionSize, int i, int j)
