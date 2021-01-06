@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>FC</Authors>
+    <Company>FC75</Company>
   </PropertyGroup>
 
   <ItemGroup>
