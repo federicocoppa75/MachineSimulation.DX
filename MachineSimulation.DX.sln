@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MachineElements.ViewModels"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MachineElements.Views", "MachineElements.Views\MachineElements.Views.csproj", "{9EE90DC7-5B63-42B6-8DA6-879687577EEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MachineElement.Model.IO", "MachineElement.Model.IO\MachineElement.Model.IO.csproj", "{2E63FA5A-A241-4D2A-A3B9-F2E346196AE3}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MachineSteps.ViewModels", "MachineSteps.ViewModels\MachineSteps.ViewModels.csproj", "{CB65C20B-9F0F-4A7D-9B65-B3FDDBB31B6E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MachineSteps.Views", "MachineSteps.Views\MachineSteps.Views.csproj", "{7B076E61-C36F-4ECE-8DDC-5FE997560CE8}"
@@ -43,6 +41,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CncViewer.Connecton.View", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CncViewer.Connection.Bridge", "CncViewer.Connection.Bridge\CncViewer.Connection.Bridge.csproj", "{3C50F28B-718D-41B4-BD8C-AE982B9C88C3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MachineElement.Model.IO", "MachineElement.Model.IO\MachineElement.Model.IO.csproj", "{E4E9347B-6523-4DD3-96BE-57F45E545547}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,10 +61,6 @@ Global
 		{9EE90DC7-5B63-42B6-8DA6-879687577EEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9EE90DC7-5B63-42B6-8DA6-879687577EEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9EE90DC7-5B63-42B6-8DA6-879687577EEE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2E63FA5A-A241-4D2A-A3B9-F2E346196AE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2E63FA5A-A241-4D2A-A3B9-F2E346196AE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2E63FA5A-A241-4D2A-A3B9-F2E346196AE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2E63FA5A-A241-4D2A-A3B9-F2E346196AE3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CB65C20B-9F0F-4A7D-9B65-B3FDDBB31B6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CB65C20B-9F0F-4A7D-9B65-B3FDDBB31B6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB65C20B-9F0F-4A7D-9B65-B3FDDBB31B6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -129,6 +125,10 @@ Global
 		{3C50F28B-718D-41B4-BD8C-AE982B9C88C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C50F28B-718D-41B4-BD8C-AE982B9C88C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C50F28B-718D-41B4-BD8C-AE982B9C88C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4E9347B-6523-4DD3-96BE-57F45E545547}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4E9347B-6523-4DD3-96BE-57F45E545547}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4E9347B-6523-4DD3-96BE-57F45E545547}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4E9347B-6523-4DD3-96BE-57F45E545547}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
