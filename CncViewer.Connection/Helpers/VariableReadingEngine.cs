@@ -1,5 +1,6 @@
 ﻿using CncViewer.Connection.CncInterface;
 using CncViewer.Connection.Messages;
+using CncViewer.Models.Connection.Enums;
 using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Collections.Generic;
@@ -41,7 +42,7 @@ namespace CncViewer.Connection.Helpers
 
         private void OnStartReadingMessage(StartReadingMessage msg)
         {
-            InitializeComunication();
+            InitializeComunication(msg.ChennelType);
 
             _timer = new Timer(300);
             _timer.Elapsed += OnElapsed;
@@ -65,9 +66,12 @@ namespace CncViewer.Connection.Helpers
             _timer.Enabled = true;
         }
 
-        private void InitializeComunication()
+        private void InitializeComunication(ChannelType channelType)
         {
-            int iChannel = KvCom3x.ConvComunicationChannel("SIMULATO");
+            string channel = GetChannel(channelType);
+            //int iChannel = KvCom3x.ConvComunicationChannel("SIMULATO");
+            //int iChannel = KvCom3x.ConvComunicationChannel("NETWORK");
+            int iChannel = KvCom3x.ConvComunicationChannel(channel);
             int iError = KvCom3x.init_board("defcn", iChannel);
 
             if (iError != 0)
@@ -76,6 +80,19 @@ namespace CncViewer.Connection.Helpers
             }
 
             InitializeVariables();
+        }
+
+        private string GetChannel(ChannelType channelType)
+        {
+            switch (channelType)
+            {
+                case ChannelType.Simulato:
+                    return "SIMULATO";
+                case ChannelType.Network:
+                    return "NETWORK";
+                default:
+                    throw new ArgumentException();
+            }
         }
 
         private void InitializeVariables()

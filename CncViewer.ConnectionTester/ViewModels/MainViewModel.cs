@@ -1,6 +1,7 @@
 ﻿using CncViewer.Connection.Messages;
 using CncViewer.Connection.ViewModels.Links;
 using CncViewer.Models.Connection;
+using CncViewer.Models.Connection.Enums;
 using CncViewer.Models.Connection.Links;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
@@ -17,6 +18,8 @@ namespace CncViewer.ConnectionTester.ViewModels
         //public ObservableCollection<LinkViewModel> Links { get; private set; } = new ObservableCollection<LinkViewModel>();
 
         //private LinkViewModel _selectedLink;
+
+        public ChannelType ChannelType { get; set; }
 
         private ICommand _fileOpenCommand;
         public ICommand FileOpenCommand { get { return _fileOpenCommand ?? (_fileOpenCommand = new RelayCommand(() => FileOpenCommandImplementation())); } }
@@ -59,7 +62,8 @@ namespace CncViewer.ConnectionTester.ViewModels
                 var cd = (ConnectionData)serializer.Deserialize(reader);
                 var list = cd.Links.Select(o => ToViewModel(o)).ToList();
 
-                MessengerInstance.Send(new LoadLinksConnectionsMessage() { Links = list });
+                MessengerInstance.Send(new LoadLinksConnectionsMessage() { Links = list, ChannelType= cd.ChannelType });
+                ChannelType = cd.ChannelType;
             }
         }
 
@@ -71,7 +75,7 @@ namespace CncViewer.ConnectionTester.ViewModels
             }
             else if (model is TwoPosLinkData tpld)
             {
-                return new TwoPosLinkViewModel(tpld.LinkId, tpld.Variable) { Description = model.Descrition };
+                return new TwoPosLinkViewModel(tpld.LinkId, tpld.Variable) { Description = model.Descrition, Inverted = tpld.Inverted };
             }
             else if(model is WriteTwoPosData wtpld)
             {
@@ -87,7 +91,7 @@ namespace CncViewer.ConnectionTester.ViewModels
             }
         }
 
-        private void StartReadingCommandImplementation() => MessengerInstance.Send(new StartReadingMessage());
+        private void StartReadingCommandImplementation() => MessengerInstance.Send(new StartReadingMessage() { ChennelType = ChannelType });
 
 
         private void StopReadingCommandImplementation() => MessengerInstance.Send(new StopReadingMessage());

@@ -33,7 +33,7 @@ namespace CncViewer.Connection.ViewModels.Links
         private T _value;
         public T Value
         {
-            get => _value;
+            get => GetValue();
             protected set => Set(ref _value, value, nameof(Value));
         }
 
@@ -55,5 +55,7 @@ namespace CncViewer.Connection.ViewModels.Links
                 _observer.ValueChanged(Id, Value);
             }
         }
+
+        protected virtual T GetValue() => _value;
     }
 }

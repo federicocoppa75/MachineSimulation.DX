@@ -6,8 +6,13 @@
         xmlns:local="clr-namespace:CncViewer.ConfigEditor"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:enums="clr-namespace:CncViewer.ConfigEditor.Enums"
+        xmlns:converters="clr-namespace:CncViewer.ConfigEditor.Converters"
+        xmlns:cncEnums="clr-namespace:CncViewer.Models.Connection.Enums;assembly=CncViewer.Models"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="600">
+    <Window.Resources>
+        <converters:ChannelTypeToBoolConverter x:Key="channelTypeToBoolConverter" />
+    </Window.Resources>
     <Grid>
         <DockPanel>
             <Menu DockPanel.Dock="Top">
@@ -22,6 +27,11 @@
                     <MenuItem Header="Unload content" Command="{Binding UnloadContentCommand}" />
                 </MenuItem>
                 <MenuItem Header="Edit">
+                    <MenuItem Header="Channel type">
+                        <MenuItem Header="Simulato" IsCheckable="True" IsChecked="{Binding ChannelType, Converter={StaticResource channelTypeToBoolConverter}, ConverterParameter={x:Static cncEnums:ChannelType.Simulato}}" />
+                        <MenuItem Header="Network" IsCheckable="True" IsChecked="{Binding ChannelType, Converter={StaticResource channelTypeToBoolConverter}, ConverterParameter={x:Static cncEnums:ChannelType.Network}}"/>
+                    </MenuItem>
+                    <Separator/>
                     <MenuItem Header="Add writable link" Command="{Binding AddLinkCommand}" CommandParameter="{x:Static enums:LinkType.WriteTwoPos}" />
                     <MenuItem Header="Add pulse link" Command="{Binding AddLinkCommand}" CommandParameter="{x:Static enums:LinkType.PulseTwoPos}"/>
                 </MenuItem>

@@ -11,6 +11,7 @@ using MachineElement = MachineModels.Models.MachineElement;
 using CncViewer.Models.Connection;
 using CncViewer.Models.Connection.Links;
 using CncLinkType = CncViewer.ConfigEditor.Enums.LinkType;
+using CncViewer.Models.Connection.Enums;
 
 namespace CncViewer.ConfigEditor.ViewModels
 {
@@ -24,6 +25,15 @@ namespace CncViewer.ConfigEditor.ViewModels
             get => _selectedLink;
             set => Set(ref _selectedLink, value, nameof(SelectedLink));
         }
+
+        private ChannelType _channelType;
+
+        public ChannelType ChannelType
+        {
+            get => _channelType; 
+            set => Set(ref _channelType, value, nameof(ChannelType));
+        }
+
 
         private ICommand _fileOpenCommand;
         public ICommand FileOpenCommand { get { return _fileOpenCommand ?? (_fileOpenCommand = new RelayCommand(() => FileOpenCommandImplementation())); } }
@@ -175,7 +185,7 @@ namespace CncViewer.ConfigEditor.ViewModels
             using (var writer = new System.IO.StreamWriter(fileName))
             {
                 var links = Links.Select((o) => o.ToModel()).ToList();
-                var cd = new ConnectionData() { Links = links };
+                var cd = new ConnectionData() { Links = links , ChannelType = ChannelType};
 
                 serializer.Serialize(writer, cd);
             }
@@ -195,6 +205,8 @@ namespace CncViewer.ConfigEditor.ViewModels
                 {
                     Links.Add(ToViewModel(item));
                 }
+
+                ChannelType = cd.ChannelType;
             }
         }
 
@@ -206,7 +218,7 @@ namespace CncViewer.ConfigEditor.ViewModels
             }
             else if(model is TwoPosLinkData tpld)
             {
-                return new TwoPosLinkViewModel(tpld.LinkId) { Variable = tpld.Variable, Description = tpld.Descrition };
+                return new TwoPosLinkViewModel(tpld.LinkId) { Variable = tpld.Variable, Description = tpld.Descrition, Inverted = tpld.Inverted };
             }
             else
             {

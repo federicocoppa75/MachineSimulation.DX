@@ -11,12 +11,13 @@ namespace CncViewer.ConfigEditor.ViewModels
     class TwoPosLinkViewModel : LinkViewModel
     {
         public override LinkType Type => LinkType.TwoPos;
+        public bool Inverted { get; set; }
 
         public TwoPosLinkViewModel(int id) : base(id)
         {
 
         }
 
-        public override LinkData ToModel() => new TwoPosLinkData() { LinkId = Id, Variable = Variable, Descrition = Description };
+        public override LinkData ToModel() => new TwoPosLinkData() { LinkId = Id, Variable = Variable, Descrition = Description, Inverted = Inverted };
     }
 }

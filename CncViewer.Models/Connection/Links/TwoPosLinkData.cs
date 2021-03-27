@@ -6,5 +6,6 @@ namespace CncViewer.Models.Connection.Links
 {
     public class TwoPosLinkData : LinkData
     {
+        public bool Inverted { get; set; }
     }
 }

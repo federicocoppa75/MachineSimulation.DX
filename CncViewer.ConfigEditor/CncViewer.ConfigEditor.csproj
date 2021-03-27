@@ -56,6 +56,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\ChannelTypeToBoolConverter.cs" />
     <Compile Include="Enums\LinkType.cs" />
     <Compile Include="ViewModels\LinearLinkViewModel.cs" />
     <Compile Include="ViewModels\LinkViewModel.cs" />
