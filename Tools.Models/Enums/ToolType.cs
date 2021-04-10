@@ -18,6 +18,7 @@ namespace Tools.Models.Enums
         BullNoseConvex,
         Composed,
         Countersink,
-        DiskOnCone
+        DiskOnCone,
+        AngularTransmission
     }
 }

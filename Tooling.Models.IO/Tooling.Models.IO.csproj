@@ -5,10 +5,12 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>FC</Authors>
     <Company>FC75</Company>
+    <Version>1.0.1</Version>
+    <PackageProjectUrl>https://github.com/federicocoppa75/MachineSimulation.DX</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MachineModels" Version="1.1.1" />
+    <PackageReference Include="MachineModels" Version="1.1.2" />
   </ItemGroup>
 
   <ItemGroup>

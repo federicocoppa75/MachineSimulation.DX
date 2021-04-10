@@ -206,5 +206,9 @@ namespace MachineElements.ViewModels.Helpers
 
             return builder.ToMesh();
         }
+
+        public static Point3D ToPoint3D(this Vector v) => new Point3D(v.X, v.Y, v.Z);
+
+        public static Vector3D ToVector3D(this Vector v) => new Vector3D(v.X, v.Y, v.Z);
     }
 }

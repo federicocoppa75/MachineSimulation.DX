@@ -1,6 +1,9 @@
 ﻿using System;
 using ExTools = MachineModels.Models.Tools;
 using IntTools = Tools.Models;
+using MMM = MachineModels.Models;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Tooling.Models.IO.Extensions
 {
@@ -15,7 +18,20 @@ namespace Tooling.Models.IO.Extensions
 
             foreach (var item in toolSet.Tools)
             {
-                tSet.Tools.Add(ToInternal(item));
+                if(item.ToolType != MachineModels.Enums.ToolType.AngularTransmission)
+                {
+                    tSet.Tools.Add(ToInternal(item));
+                }                
+            }
+
+            var tDictionary = tSet.Tools.ToDictionary(t => t.Name, t => t);
+
+            foreach (var item in toolSet.Tools)
+            {
+                if (item.ToolType == MachineModels.Enums.ToolType.AngularTransmission)
+                {
+                    tSet.Tools.Add(ToInternal(item as ExTools.AngolarTransmission, tDictionary));
+                }
             }
 
             return tSet;
@@ -146,5 +162,30 @@ namespace Tooling.Models.IO.Extensions
                 UsefulLength = item.UsefulLength
             };
         }
+
+        private static IntTools.Tool ToInternal(ExTools.AngolarTransmission angolarTransmission, Dictionary<string, IntTools.Tool> tools)
+        {
+            var at = new IntTools.AngolarTransmission() 
+            {
+                Name = angolarTransmission.Name,
+                Description = angolarTransmission.Description,
+                ConeModelFile = angolarTransmission.ConeModelFile,
+                BodyModelFile = angolarTransmission.BodyModelFile 
+            };
+
+            foreach (var item in angolarTransmission.Subspindles)
+            {
+                at.Subspindles.Add(new IntTools.AngolarTransmission.Subspindle()
+                {
+                    Position = item.Position.ToInternal(),
+                    Direction = item.Direction.ToInternal(),
+                    Tool = tools[item.ToolName]
+                });
+            }
+
+            return at;
+        }
+
+        public static IntTools.Vector ToInternal(this MMM.Vector v) => new IntTools.Vector() { X = v.X, Y = v.Y, Z = v.Z };
     }
 }

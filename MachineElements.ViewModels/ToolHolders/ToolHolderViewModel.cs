@@ -9,6 +9,7 @@ using MachineElements.ViewModels.Tools;
 using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
 using Tools.Models;
+using TME = Tools.Models.Enums;
 
 namespace MachineElements.ViewModels.ToolHolder
 {
@@ -57,7 +58,20 @@ namespace MachineElements.ViewModels.ToolHolder
 
         private IMachineElementViewModel GetToolViewModel(Tool tool)
         {
-            var vm = string.IsNullOrEmpty(tool.ConeModelFile) ? (IMachineElementViewModel)ToolViewModel.Create(tool, Position, Direction) : (IMachineElementViewModel)ToolWithConeViewModel.Create(tool, Position, Direction);
+            IMachineElementViewModel vm = null;
+
+            if(tool.ToolType == TME.ToolType.AngularTransmission)
+            {
+                vm = AngularTransmissionViewModel.Create(tool, Position, Direction);
+            }
+            else if(!string.IsNullOrEmpty(tool.ConeModelFile))
+            {
+                vm = ToolWithConeViewModel.Create(tool, Position, Direction);
+            }
+            else
+            {
+                vm = ToolViewModel.Create(tool, Position, Direction);
+            }
 
             vm.Parent = this;
 
@@ -98,51 +112,5 @@ namespace MachineElements.ViewModels.ToolHolder
                 });
             }
         }
-
-        //private ModelVisual3D GetToolModel(Tool tool)
-        //{
-        //    ModelVisual3D mv = null;
-        //    MachineElementViewModel modelFactory(string s) => new MachineElementViewModel() { Name = s };
-
-        //    switch (tool.ToolType)
-        //    {
-        //        case ToolType.None:
-        //            break;
-        //        case ToolType.Base:
-        //            break;
-        //        case ToolType.Simple:
-        //            mv = ToolsMeshHelper.GetSimpleModel(tool, Position, Direction, modelFactory);
-        //            break;
-        //        case ToolType.TwoSection:
-        //            mv = ToolsMeshHelper.GetTwoSectionModel(tool, Position, Direction, modelFactory);
-        //            break;
-        //        case ToolType.Pointed:
-        //            mv = ToolsMeshHelper.GetPointedModel(tool, Position, Direction, modelFactory);
-        //            break;
-        //        case ToolType.Disk:
-        //            mv = ToolsMeshHelper.GetDiskModel(tool, Position, Direction, modelFactory);
-        //            break;
-        //        case ToolType.BullNoseConcave:
-        //            break;
-        //        case ToolType.BullNoseConvex:
-        //            break;
-        //        case ToolType.Composed:
-        //            break;
-        //        case ToolType.Countersink:
-        //            mv = ToolsMeshHelper.GetCountersinkModel(tool, Position, Direction, modelFactory);
-        //            break;
-        //        case ToolType.DiskOnCone:
-        //            mv = ToolsMeshHelper.GetDiskOnConeModel(tool, Position, Direction, modelFactory);
-        //            break;
-        //        default:
-        //            break;
-        //    }
-
-        //    if (mv == null) throw new NotImplementedException();
-
-        //    if (mv is MachineElementViewModel mevm) mevm.Name = tool.Name;
-
-        //    return mv;
-        //}
     }
 }

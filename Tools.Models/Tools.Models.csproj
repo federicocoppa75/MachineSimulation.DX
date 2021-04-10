@@ -5,6 +5,8 @@
     <Authors>FC</Authors>
     <Company>FC75</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.0.1</Version>
+    <RepositoryUrl>https://github.com/federicocoppa75/MachineSimulation.DX</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
