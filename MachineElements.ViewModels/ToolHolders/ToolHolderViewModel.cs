@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using MachineElements.ViewModels.Enums;
 using MachineElements.ViewModels.Extensions;
+using MachineElements.ViewModels.Helpers;
 using MachineElements.ViewModels.Helpers.UI;
 using MachineElements.ViewModels.Interfaces;
 using MachineElements.ViewModels.Messages.Tooling;
@@ -95,7 +96,7 @@ namespace MachineElements.ViewModels.ToolHolder
 
         private void OnGetActiveRoutToolMessage(GetActiveRoutToolMessage msg)
         {
-            if (ActiveTool)
+            if (ActiveTool && (_tool != null))
             {
                 DispatcherHelperEx.CheckBeginInvokeOnUI(() =>
                 {
@@ -105,9 +106,23 @@ namespace MachineElements.ViewModels.ToolHolder
 
                     Task.Run(() =>
                     {
-                        var p = t.Transform(Position);
-                        var v = t.Transform(Direction);
-                        if (_tool != null) msg.SetData(p, v, _tool, ToolHolderId);
+                        if(_tool.ToolType == TME.ToolType.AngularTransmission)
+                        {
+                            var at = _tool as AngolarTransmission;
+
+                            foreach (var item in at.Subspindles)
+                            {
+                                var p = t.Transform(Position + item.Position.ToVector3D());
+                                var v = t.Transform(item.Direction.ToVector3D());
+                                msg.SetData(p, v, item.Tool, ToolHolderId);
+                            }
+                        }
+                        else
+                        {
+                            var p = t.Transform(Position);
+                            var v = t.Transform(Direction);
+                            msg.SetData(p, v, _tool, ToolHolderId);
+                        }
                     });
                 });
             }
