@@ -553,7 +553,7 @@ namespace MachineViewer
                 }
                 else if ((string.Compare(extension, "iso", true) == 0) || (string.Compare(extension, "i", true) == 0))
                 {
-                    var doc = IsoStepsLoader.LoadAndParse(dlg.FileName, true, GetLinkLimits);
+                    var doc = IsoStepsLoader.LoadAndParse(dlg.FileName, true, GetLinkLimits, () => (LinearPositionLinks != null) ? LinearPositionLinks.Count : 0);
 
                     if (doc != null)
                     {

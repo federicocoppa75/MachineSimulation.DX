@@ -6,9 +6,9 @@ namespace MachineElement.Model.IO
 {
     public static class IsoStepsLoader
     {
-        public static MachineStepsDocument LoadAndParse(string fileName, bool traceOut = false, Func<int, Tuple<double, double>> getLinkLimits = null)
+        public static MachineStepsDocument LoadAndParse(string fileName, bool traceOut = false, Func<int, Tuple<double, double>> getLinkLimits = null, Func<int> getLinearLinksCount = null)
         {
-            return IsoParser.Parse(fileName, traceOut, getLinkLimits);
+            return IsoParser.Parse(fileName, traceOut, getLinkLimits, getLinearLinksCount);
         }
     }
 }
