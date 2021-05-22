@@ -2,12 +2,16 @@
 using GalaSoft.MvvmLight.Ioc;
 using MachineElements.ViewModels.Helpers.UI;
 using MachineElements.ViewModels.Links.Movement;
+using MachineSteps.Models.Actions;
 using MachineSteps.ViewModels.Messages;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using IStepObserver = MachineElements.ViewModels.Interfaces.Steps.IStepObserver;
-//using StepExecutionDirection = MachineElements.ViewModels.Interfaces.Enums.StepExecutionDirection;
+using MeVmMG = MachineElements.ViewModels.Messages.Generic;
 
 namespace MachineSteps.ViewModels
 {
@@ -16,6 +20,9 @@ namespace MachineSteps.ViewModels
         private IStepObserver _stepObserver;
 
         private bool _autoStepOver;
+        private bool _multiChannel;
+        ConcurrentDictionary<int, bool> _channelState = new ConcurrentDictionary<int, bool>();
+        ConcurrentDictionary<int, int> _channelFreeBackNotifyId = new ConcurrentDictionary<int, int>();
 
         public ObservableCollection<StepViewModel> Steps { get; private set; } = new ObservableCollection<StepViewModel>();
 
@@ -26,11 +33,24 @@ namespace MachineSteps.ViewModels
             get { return _selected; }
             set
             {
-                var lastSelected = _selected;
-
-                if(Set(ref _selected, value, nameof(Selected)))
+                if((value != null) && (value.Channel > 0) && _autoStepOver && _multiChannel)
                 {
-                    ManageSelectionChanged(_selected, lastSelected);
+                    var next = GetNextStep(0, (_selected != null) ? _selected.Index : 0);
+                    var lastSelected = _selected;
+
+                    if (Set(ref _selected, next, nameof(Selected)))
+                    {
+                        ManageSelectionChanged(_selected, lastSelected);
+                    }
+                }
+                else
+                {
+                    var lastSelected = _selected;
+
+                    if(Set(ref _selected, value, nameof(Selected)))
+                    {
+                        ManageSelectionChanged(_selected, lastSelected);
+                    }
                 }
             }
         }
@@ -44,6 +64,27 @@ namespace MachineSteps.ViewModels
             MessengerInstance.Register<StepCompleteMessage>(this, OnStepCompleteMessage);
             MessengerInstance.Register<AutoStepOverChangedMessage>(this, OnAutoStepOverChangedMessage);
             MessengerInstance.Register<MaterialRemovalMessage>(this, OnMaterialRemovalMessage);
+            MessengerInstance.Register<MultiChannelMessage>(this, OnMultiChannelMessage);
+            MessengerInstance.Register<WaitForChannelFreeMessage>(this, OnWaitForChannelFreeMessage);
+        }
+
+        private void OnWaitForChannelFreeMessage(WaitForChannelFreeMessage msg)
+        {
+            if(_channelState.GetOrAdd(msg.Channel, false))
+            {
+                if (!_channelFreeBackNotifyId.TryAdd(msg.Channel, msg.BackNotifyId)) throw new InvalidOperationException();
+            }
+            else
+            {
+                MessengerInstance.Send(new MeVmMG.BackNotificationMessage() { DestinationId = msg.BackNotifyId });
+            }
+        }
+
+        private void OnMultiChannelMessage(MultiChannelMessage msg)
+        {
+            _multiChannel = msg.Value;
+
+            if (_multiChannel) LinearLinkMovementManager.ForceInitialize();
         }
 
         private void OnMaterialRemovalMessage(MaterialRemovalMessage msg) => LinearLinkMovementManager.EnableMaterialRemoval = msg.Active;
@@ -54,16 +95,55 @@ namespace MachineSteps.ViewModels
         {
             if(_autoStepOver)
             {
-                Task.Run(async () =>
+                if(_multiChannel)
                 {
-                    await Task.Delay(5);
+                    OnStepCompleteMessageMultiChannel(msg);
+                }
+                else
+                {
+                    Task.Run(async () =>
+                    {
+                        await Task.Delay(50);
 
                     StepViewModel newSelection = GetNextStep();
 
                     if (newSelection != null) DispatcherHelperEx.CheckBeginInvokeOnUI(() => Selected = newSelection);
                     //if (newSelection != null) Selected = newSelection;
                 });
+                }
             }
+        }
+
+        private void OnStepCompleteMessageMultiChannel(StepCompleteMessage msg)
+        {
+            Task.Run(async () =>
+            {
+                await Task.Delay(50);
+
+                if (msg.Channel > 0)
+                {
+                    var step = GetNextStep(msg.Channel, msg.Index);
+
+                    if (_channelState.AddOrUpdate(msg.Channel, step != null, (k, v) => step != null))
+                    {
+                        step.UpdateLazys();
+                        step.ExecuteFarward();
+                    }
+                    else
+                    {
+                        if (_channelFreeBackNotifyId.TryRemove(msg.Channel, out int id))
+                        {
+                            MessengerInstance.Send(new MeVmMG.BackNotificationMessage() { DestinationId = id });
+                        }
+                    }
+                }
+                else
+                {
+                    StepViewModel newSelection = GetNextStep();
+
+                    if (newSelection != null) DispatcherHelperEx.CheckBeginInvokeOnUI(() => Selected = newSelection);
+                }
+            });
         }
 
         private StepViewModel GetNextStep()
@@ -85,6 +165,40 @@ namespace MachineSteps.ViewModels
             }
 
             return newSelection;
+        }
+
+        private StepViewModel GetNextStep(int channel, int fromIndex)
+        {
+            StepViewModel nextStep = null;
+
+            for (int i = fromIndex + 1; i < Steps.Count; i++)
+            {
+                if(Steps[i].Channel == channel)
+                {
+                    nextStep = Steps[i];
+                    break;
+                }
+                else if(IsChannelWaiter(Steps[i], channel))
+                {
+                    break;
+                }
+            }
+
+            return nextStep;
+        }
+
+        private bool IsChannelWaiter(StepViewModel step, int channel)
+        {
+            bool result = false;
+
+            if((step.FarwardActions.Count == 1) && 
+                (step.FarwardActions[0].Action is ChannelWaiterAction action) && 
+                (action.ChannelToWait == channel))
+            {
+                result = true;
+            }
+
+            return result;
         }
 
         private void OnUnloadStepsMessage(UnloadStepsMessage msg)
@@ -145,17 +259,66 @@ namespace MachineSteps.ViewModels
             }
 
             MessengerInstance.Send(new ResumePlaybackSettingsMessage());
+
+            if(Selected.Index == 0)
+            {
+                _channelFreeBackNotifyId.Clear();
+                _channelState.Clear();
+            }
         }
 
         private void ManageFarwardSelectionChanged(StepViewModel selected, StepViewModel lastSelected)
         {
-            for (int i = lastSelected.Index+1; i <= selected.Index; i++)
+            if(_autoStepOver && _multiChannel)
+            {
+                ManageFarwardSelectionChangedDynamic(selected, lastSelected);
+            }
+            else
+            {
+                ManageFarwardSelectionChangedStatic(selected, lastSelected);
+            }
+        }
+
+        private void ManageFarwardSelectionChangedStatic(StepViewModel selected, StepViewModel lastSelected)
+        {
+            for (int i = lastSelected.Index + 1; i <= selected.Index; i++)
             {
                 var svm = Steps[i];
 
                 _stepObserver.SetFarwardIndex(i);
                 svm.UpdateLazys();
                 svm.ExecuteFarward();
+            }
+        }
+
+        private void ManageFarwardSelectionChangedDynamic(StepViewModel selected, StepViewModel lastSelected)
+        {
+            HashSet<int> set = new HashSet<int>();
+
+            for (int i = lastSelected.Index + 1; i <= selected.Index; i++)
+            {
+                var svm = Steps[i];
+
+                if(svm.Channel == 0)
+                {
+                    _stepObserver.SetFarwardIndex(i);
+                    svm.UpdateLazys();
+                    svm.ExecuteFarward();
+
+                    break;
+                }
+                else if((svm.Channel > 0) && !set.Contains(svm.Channel))
+                {
+                    set.Add(svm.Channel);
+
+                    _channelState.AddOrUpdate(svm.Channel, true, (k, v) => true);
+
+                    Task.Run(() =>
+                    {
+                        svm.UpdateLazys();
+                        svm.ExecuteFarward();
+                    });
+                }
             }
         }
 

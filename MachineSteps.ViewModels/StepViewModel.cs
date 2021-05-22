@@ -14,6 +14,7 @@ namespace MachineSteps.ViewModels
         public string Name { get; private set; }
         public string Description { get; private set; }
         public int Index { get; private set; }
+        public int Channel { get; private set; }
 
         private bool _durationIsValid;
         private double _duration;
@@ -44,6 +45,7 @@ namespace MachineSteps.ViewModels
             Name = step.Name;
             Description = step.Description;
             Index = index;
+            Channel = step.Channel;
 
             step.Actions.ForEach((a) =>
             {
@@ -88,7 +90,7 @@ namespace MachineSteps.ViewModels
             if (FarwardActions.All(a => a.IsCompleted))
             {
                 State = StepState.Finished;
-                MessengerInstance.Send(new StepCompleteMessage() { Id = Id, Index = Index });
+                MessengerInstance.Send(new StepCompleteMessage() { Id = Id, Index = Index, Channel = Channel });
             }
         }
 

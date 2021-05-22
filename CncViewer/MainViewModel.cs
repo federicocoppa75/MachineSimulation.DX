@@ -102,6 +102,19 @@ namespace CncViewer
             }
         }
 
+        private bool _multiChannel;
+        public bool MultiChannel
+        {
+            get => _multiChannel;
+            set
+            {
+                if (Set(ref _multiChannel, value, nameof(MultiChannel)))
+                {
+                    MessengerInstance.Send(new MultiChannelMessage() { Value = _multiChannel });
+                }
+            }
+        }
+
         private bool _materialRemoval;
         public bool MaterialRemoval
         {

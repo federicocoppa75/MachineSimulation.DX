@@ -97,6 +97,8 @@ namespace MachineElements.ViewModels.Links.Movement
             if (EnableMaterialRemoval) Interlocked.Exchange(ref _pendingMovement, 1);
         }
 
+        public static void ForceInitialize() { }
+
         private static void OnRendering(object sender, RenderingEventArgs e) => Evaluate();
 
         private static void Evaluate()

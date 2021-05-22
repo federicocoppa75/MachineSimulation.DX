@@ -12,6 +12,7 @@ using ArcComponentData = MachineViewer.Plugins.Common.Models.Links.Interpolation
 using ArcComponent = MachineElements.ViewModels.Enums.Links.Interpolation.ArcComponent;
 using MachineElements.ViewModels.Messages.Inverters;
 using MachineElements.ViewModels.Messages.Inserters;
+using MachineSteps.ViewModels.Messages;
 
 namespace MachineSteps.ViewModels.Extensions
 {
@@ -198,6 +199,8 @@ namespace MachineSteps.ViewModels.Extensions
             else if (a is TurnOffInverterAction toffia) toffia.ExecuteAction(actionId);
             else if (a is TurnOnInverterAction tonia) tonia.ExecuteAction(actionId);
             else if (a is UpdateRotationSpeedAction ursa) ursa.ExecuteAction(actionId);
+            else if (a is ChannelWaiterAction cwa) cwa.ExecuteAction(actionId);
+            else if (a is NotOperationAction noa) noa.ExecuteAction(actionId);
         }
 
         public static void ExecuteAction(this AddPanelAction a, int actionId = 0)
@@ -359,6 +362,20 @@ namespace MachineSteps.ViewModels.Extensions
                 Duration = a.Duration,
                 BackNotifyId = actionId
             });
+        }
+
+        public static void ExecuteAction(this ChannelWaiterAction a, int actionId = 0)
+        {
+            Messenger.Default.Send(new WaitForChannelFreeMessage()
+            {
+                Channel = a.ChannelToWait,
+                BackNotifyId = actionId
+            });
+        }
+
+        public static void ExecuteAction(this NotOperationAction a, int actionId = 0)
+        {
+            Messenger.Default.Send(new MachineElements.ViewModels.Messages.Generic.BackNotificationMessage() { DestinationId = actionId });
         }
 
         public static double GetDuration(this BaseAction action)
