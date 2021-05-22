@@ -6,8 +6,8 @@
     <Company>FC75</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/federicocoppa75/MachineSimulation.DX</PackageProjectUrl>
-    <Version>1.0.2</Version>
-    <AssemblyVersion>1.0.2.0</AssemblyVersion>
+    <Version>1.0.3</Version>
+    <AssemblyVersion>1.0.3.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,7 +19,7 @@
     <PackageReference Include="MachineSteps.Models" Version="1.1.1" />
     <PackageReference Include="MachineSteps.Plugins.IsoConverterBase" Version="1.1.0" />
     <PackageReference Include="MachineSteps.Plugins.IsoIstructions" Version="1.1.0" />
-    <PackageReference Include="MachineSteps.Plugins.IsoParser" Version="1.1.1" />
+    <PackageReference Include="MachineSteps.Plugins.IsoParser" Version="1.1.2" />
     <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1.1" />
     <PackageReference Include="SharpDX" Version="4.2.0" />
     <PackageReference Include="SharpDX.D3DCompiler" Version="4.2.0" />
