@@ -16,7 +16,7 @@
     <PackageReference Include="HelixToolkit.Wpf.SharpDX" Version="2.11.0" />
     <PackageReference Include="MachineModels" Version="1.1.2" />
     <PackageReference Include="MachineModels.IO" Version="1.1.1" />
-    <PackageReference Include="MachineSteps.Models" Version="1.1.0" />
+    <PackageReference Include="MachineSteps.Models" Version="1.1.1" />
     <PackageReference Include="MachineSteps.Plugins.IsoConverterBase" Version="1.1.0" />
     <PackageReference Include="MachineSteps.Plugins.IsoIstructions" Version="1.1.0" />
     <PackageReference Include="MachineSteps.Plugins.IsoParser" Version="1.1.1" />

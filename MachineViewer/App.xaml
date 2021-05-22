@@ -8,6 +8,7 @@
         <stepConv:AxIdToLabelCharConverter x:Key="axIdToLabelCharConverter">
             <stepConv:AxIdToLabelCharConverterItem When="1" Then="X" />
             <stepConv:AxIdToLabelCharConverterItem When="2" Then="U" />
+            <stepConv:AxIdToLabelCharConverterItem When="3" Then="Z" />
             <stepConv:AxIdToLabelCharConverterItem When="101" Then="Y" />
             <stepConv:AxIdToLabelCharConverterItem When="201" Then="V" />
             <stepConv:AxIdToLabelCharConverterItem When="102" Then="Z" />

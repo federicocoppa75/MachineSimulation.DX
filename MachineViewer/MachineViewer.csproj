@@ -60,8 +60,8 @@
     <Reference Include="MachineModels.IO, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MachineModels.IO.1.1.1\lib\netstandard2.0\MachineModels.IO.dll</HintPath>
     </Reference>
-    <Reference Include="MachineSteps.Models, Version=1.1.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MachineSteps.Models.1.1.0\lib\netstandard2.0\MachineSteps.Models.dll</HintPath>
+    <Reference Include="MachineSteps.Models, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MachineSteps.Models.1.1.1\lib\netstandard2.0\MachineSteps.Models.dll</HintPath>
     </Reference>
     <Reference Include="MachineSteps.Plugins.IsoConverterBase, Version=1.1.0.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MachineSteps.Plugins.IsoConverterBase.1.1.0\lib\netstandard2.0\MachineSteps.Plugins.IsoConverterBase.dll</HintPath>
