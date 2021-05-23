@@ -37,6 +37,7 @@ namespace MachineViewer
             vm.LoadLastEnvironmentAtStartup = Properties.Settings.Default.LoadLastEnvironmentAtStartup;
             vm.LastEnvironmentAtStartup = Properties.Settings.Default.LastEnvironmentAtStartup;
             vm.IsCameraInfoActive = Properties.Settings.Default.ShowCameraInfo;
+            vm.MultiChannel = Properties.Settings.Default.MultiChannel;
 
             LightTypeFromSettingsToViewModel();
 
@@ -64,6 +65,7 @@ namespace MachineViewer
             Properties.Settings.Default.LoadLastEnvironmentAtStartup = vm.LoadLastEnvironmentAtStartup;
             Properties.Settings.Default.LastEnvironmentAtStartup = vm.LastEnvironmentAtStartup;
             Properties.Settings.Default.ShowCameraInfo = vm.IsCameraInfoActive;
+            Properties.Settings.Default.MultiChannel = vm.MultiChannel;
 
             LightTypeFromViewModelToSettings();
 

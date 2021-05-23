@@ -68,7 +68,7 @@
                     <Separator/>
                     <MenuItem Header="Dynamic transition" IsCheckable="True" IsChecked="{Binding DynamicTransition}"/>
                     <MenuItem Header="Auto step over" IsCheckable="True" IsChecked="{Binding AutoStepOver}"/>
-                    <MenuItem Header="Multi channel" IsCheckable="True" IsChecked="{Binding MultiChannel}"/>
+                    <MenuItem Header="Multi channel" IsCheckable="True" IsChecked="{Binding MultiChannel}" IsEnabled="{Binding AutoStepOver}"/>
                     <Separator/>
                     <MenuItem Header="Material removal" IsCheckable="True" IsChecked="{Binding MaterialRemoval}" />
                     <Separator/>

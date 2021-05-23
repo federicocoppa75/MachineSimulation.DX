@@ -91,6 +91,7 @@ namespace MachineViewer
                 if (Set(ref _autoStepOver, value, nameof(AutoStepOver)))
                 {
                     if (_autoStepOver) DynamicTransition = true;
+                    else MultiChannel = false;
                     MessengerInstance.Send(new AutoStepOverChangedMessage() { Value = _autoStepOver });
                 }
             }
