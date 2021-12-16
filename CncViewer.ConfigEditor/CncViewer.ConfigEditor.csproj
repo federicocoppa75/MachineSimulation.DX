@@ -123,7 +123,7 @@
       <Version>1.1.2</Version>
     </PackageReference>
     <PackageReference Include="MachineModels.IO">
-      <Version>1.1.1</Version>
+      <Version>1.1.2</Version>
     </PackageReference>
     <PackageReference Include="MvvmLightLibsStd10">
       <Version>5.4.1.1</Version>
