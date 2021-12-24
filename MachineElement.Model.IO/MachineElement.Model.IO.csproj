@@ -6,8 +6,8 @@
     <Company>FC75</Company>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/federicocoppa75/MachineSimulation.DX</PackageProjectUrl>
-    <Version>1.0.4</Version>
-    <AssemblyVersion>1.0.4.0</AssemblyVersion>
+    <Version>1.0.5</Version>
+    <AssemblyVersion>1.0.5.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,7 +15,7 @@
     <PackageReference Include="HelixToolkit" Version="2.11.0" />
     <PackageReference Include="HelixToolkit.Wpf.SharpDX" Version="2.11.0" />
     <PackageReference Include="MachineModels" Version="1.1.2" />
-    <PackageReference Include="MachineModels.IO" Version="1.1.2" />
+    <PackageReference Include="MachineModels.IO" Version="1.1.3" />
     <PackageReference Include="MachineSteps.Models" Version="1.1.1" />
     <PackageReference Include="MachineSteps.Plugins.IsoConverterBase" Version="1.1.0" />
     <PackageReference Include="MachineSteps.Plugins.IsoIstructions" Version="1.1.0" />

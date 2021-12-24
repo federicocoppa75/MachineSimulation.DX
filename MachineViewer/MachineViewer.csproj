@@ -57,8 +57,8 @@
     <Reference Include="MachineModels, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MachineModels.1.1.2\lib\netstandard2.0\MachineModels.dll</HintPath>
     </Reference>
-    <Reference Include="MachineModels.IO, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MachineModels.IO.1.1.2\lib\netstandard2.0\MachineModels.IO.dll</HintPath>
+    <Reference Include="MachineModels.IO, Version=1.1.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MachineModels.IO.1.1.3\lib\netstandard2.0\MachineModels.IO.dll</HintPath>
     </Reference>
     <Reference Include="MachineSteps.Models, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MachineSteps.Models.1.1.1\lib\netstandard2.0\MachineSteps.Models.dll</HintPath>
